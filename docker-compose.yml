@@ -1,0 +1,33 @@
+---
+version: '3'
+services:
+  mongodb:
+    image: mongo:4
+    restart: always
+    container_name: mongodb
+    volumes:
+      - ./mongo_data:/data/db
+    ports:
+      - "27017:27017"
+    environment: 
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+
+  postgres:
+    image: postgres:9.6
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=heroes
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - MAX_CONNECTIONS=300
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+  # mongoclient:
+  #   image: mongoclient/mongoclient
+  #   ports:
+  #    - 3000:3000
+  #   links:
+  #     - mongodb:mongodb
