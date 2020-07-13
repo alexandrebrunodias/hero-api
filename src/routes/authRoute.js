@@ -33,21 +33,28 @@ class AuthRoute extends BaseRoute {
                 }
             },
             handler: async (request) => {
-                const { username, password } = request.payload
-                const [usuario] = await this.db.read({username: username.toLowerCase()});
+                try {
+                    const { username, password } = request.payload
+                    const [usuario] = await this.db.read({ username: username.toLowerCase() });
 
-                if (!usuario || !PasswrodHelper.compare(password, usuario.password)) {
-                    return Boom.unauthorized('Usuário ou senha incorreta!')  
-                } 
+                    if (!usuario || !PasswrodHelper.compare(password, usuario.password)) {
+                        return Boom.unauthorized('Usuário ou senha incorreta!')
+                    }
 
-                const token = Jwt.sign({
-                    username,
-                    id: usuario.id,
-                }, this.secret);
+                    const token = Jwt.sign({
+                        username,
+                        id: usuario.id,
+                    }, this.secret);
 
-                return {
-                    token
+                    return {
+                        token
+                    }
+                    
+                } catch (error) {
+                    console.error(error);
+                    return Boom.internal();
                 }
+                
             }
         }
     }

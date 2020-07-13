@@ -34,7 +34,7 @@ const CREDENCIAIS = {
 
 const CREDENCIAIS_DB = {
     username: CREDENCIAIS.username.toLowerCase(),
-    password: '$2b$04$rXLn3/2AfNj2z70VyOwO6eYGeh1T6i1T8Br1Cxh0gKZx85T7QBIVy'
+    password: '$2b$04$ag70zjFTw4dSq1cUsbyFi.kZYd22nD5xEduB0g1x5JBWPfN9fLSei'
 }
 
 let tableUsuario = {}
@@ -54,6 +54,7 @@ describe('Suite dos recursos de Auth', function () {
     it('POST /login deve retornar um token', async () => {
         const result = await autenticar(CREDENCIAIS.username, CREDENCIAIS.password);
         const response = JSON.parse(result.payload);
+
         assert.deepStrictEqual(result.statusCode, 200);
         assert.ok(response.token.length > 10);
     });
@@ -64,7 +65,7 @@ describe('Suite dos recursos de Auth', function () {
         const { token } = JSON.parse(response.payload);
 
 
-        const [{ id }] = await tableUsuario.read({ username: CREDENCIAIS_DB.username })
+        const [{ id }] = await tableUsuario.read({ username: CREDENCIAIS_DB.username });
         await tableUsuario.delete(id);
 
         const result = await consultar(token);

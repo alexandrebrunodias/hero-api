@@ -32,18 +32,16 @@ class Postgres extends Crud {
     }
 
     static connect() {
-        return new Sequelize(
-            'heroes',
-            'postgres',
-            'postgres',
-            {
-                host: 'localhost',
+        return new Sequelize(process.env.POSTGRES_URL, {
                 dialect: 'postgres',
                 quoteIdentifiers: false,
                 operatorAliases: false,
-                logging: false
-            }
-        );
+                logging: false,
+                ssl: process.env.SSL_DB,
+                dialectOptions: {
+                    ssl: process.env.SSL_DB,
+                }
+            });
     }
 
     static async defineModel(connection, model) {
