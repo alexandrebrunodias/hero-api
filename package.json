@@ -25,7 +25,8 @@
     "mongoose": "^5.9.18",
     "pg": "^8.2.1",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^5.22.3"
+    "sequelize": "^5.22.3",
+    "serialize-javascript": ">=3.1.0"
   },
   "devDependencies": {
     "mocha": "^8.0.1"
